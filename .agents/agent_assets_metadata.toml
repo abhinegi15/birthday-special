@@ -1,0 +1,38 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "gvm5XYgxcD8FBO0md2obr"
+uri = "file://artifacts/birthday-love/src/assets/solo-1.png"
+type = "image"
+title = "Woman silhouette at golden hour"
+
+[[generated]]
+id = "57InXFQCzwSjmpWRZKc6f"
+uri = "file://artifacts/birthday-love/src/assets/solo-2.png"
+type = "image"
+title = "Woman smiling in soft light"
+
+[[generated]]
+id = "AUZ4CMaLwqaUkDXvi8p_Y"
+uri = "file://artifacts/birthday-love/src/assets/solo-3.png"
+type = "image"
+title = "Woman in field of flowers"
+
+[[generated]]
+id = "S3cvU3MbObe397w_Lp_54"
+uri = "file://artifacts/birthday-love/src/assets/couple-1.png"
+type = "image"
+title = "Couple holding hands walking"
+
+[[generated]]
+id = "aPFzNMFvLO9Uk4kqlyh_i"
+uri = "file://artifacts/birthday-love/src/assets/couple-2.png"
+type = "image"
+title = "Couple silhouetted against sky"
+
+[[generated]]
+id = "dYKE3lbUOYGJP_SdEpDoo"
+uri = "file://artifacts/birthday-love/src/assets/couple-3.png"
+type = "image"
+title = "Close up couple holding hands"
