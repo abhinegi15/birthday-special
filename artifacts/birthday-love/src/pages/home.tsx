@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, Lightbulb } from 'lucide-react';
 import { FloatingHearts } from '@/components/FloatingHearts';
 import { HeartCursor } from '@/components/HeartCursor';
 import { MusicPlayer } from '@/components/MusicPlayer';
@@ -10,6 +10,7 @@ import { LoveStats } from '@/components/LoveStats';
 import { StarryBackground } from '@/components/StarryBackground';
 import { WishStars } from '@/components/WishStars';
 import { OpenWhenLetters } from '@/components/OpenWhenLetters';
+import { IntroStory } from '@/components/IntroStory';
 
 // Placeholders for photos. Replace these with her actual photos any time.
 import solo1 from '@/assets/solo-1.png';
@@ -109,12 +110,65 @@ function BobbingSticker({
 
 export default function Home() {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [showIntro, setShowIntro] = useState(true);
+  const [lightsOn, setLightsOn] = useState(false);
 
   const NAME = "[Her Name]"; // Boyfriend: Replace this!
   const BOYFRIEND_NAME = "[Your Name]"; // Boyfriend: Replace this!
 
+  const handleFinishIntro = ({ lightsOn: lit, playMusic }: { lightsOn: boolean; playMusic: boolean }) => {
+    setShowIntro(false);
+    setLightsOn(lit);
+    if (playMusic) {
+      // Tell the MusicPlayer to start; this is allowed because it's inside a user click handler
+      window.dispatchEvent(new Event('birthday:start-music'));
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-background text-foreground selection:bg-primary/30 overflow-x-hidden">
+      {/* Intro story overlay */}
+      <AnimatePresence>
+        {showIntro && (
+          <IntroStory name={NAME} fromName={BOYFRIEND_NAME} onFinish={handleFinishIntro} />
+        )}
+      </AnimatePresence>
+
+      {/* "Lights off" dim overlay — fades away when she turns the lights on */}
+      <AnimatePresence>
+        {!showIntro && !lightsOn && (
+          <motion.div
+            initial={{ opacity: 0.85 }}
+            animate={{ opacity: 0.85 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2 }}
+            className="fixed inset-0 z-40 bg-black pointer-events-none"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Lights toggle — floats top-left */}
+      {!showIntro && (
+        <motion.button
+          type="button"
+          onClick={() => setLightsOn((v) => !v)}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.94 }}
+          className={`fixed top-6 left-6 z-50 w-12 h-12 rounded-full backdrop-blur-md border shadow-lg flex items-center justify-center transition-colors ${
+            lightsOn
+              ? 'bg-card/70 border-primary/30 text-secondary'
+              : 'bg-white/10 border-white/20 text-white/80'
+          }`}
+          title={lightsOn ? 'Turn off the lights' : 'Turn on the lights'}
+          aria-label={lightsOn ? 'Turn off the lights' : 'Turn on the lights'}
+        >
+          <Lightbulb size={18} fill={lightsOn ? 'currentColor' : 'none'} />
+        </motion.button>
+      )}
+
       <StarryBackground />
       <HeartCursor />
       <FloatingHearts />

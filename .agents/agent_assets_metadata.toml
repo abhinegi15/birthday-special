@@ -84,3 +84,9 @@ id = "gNGhjA6FBuQbdlNsYxUnp"
 uri = "file://artifacts/birthday-love/src/assets/stickers/panda-backhug.png"
 type = "image"
 title = "panda back hug"
+
+[[generated]]
+id = "qE-vq4giwi4Bf8659NzS1"
+uri = "file://artifacts/birthday-love/src/assets/intro-cake.png"
+type = "image"
+title = "generated_image"

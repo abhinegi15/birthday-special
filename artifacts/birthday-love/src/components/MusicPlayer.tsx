@@ -41,6 +41,15 @@ export function MusicPlayer() {
     setShowPrompt(false);
   };
 
+  // Listen for an external "start music" event (e.g. from the IntroStory)
+  useEffect(() => {
+    const handler = () => {
+      startMusic();
+    };
+    window.addEventListener('birthday:start-music', handler);
+    return () => window.removeEventListener('birthday:start-music', handler);
+  }, []);
+
   const togglePlay = () => {
     const audio = audioRef.current;
     if (!audio) return;
