@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
 
 const WISHES = [
   "I wish for you to always feel as loved as you make me feel.",
@@ -25,33 +26,36 @@ type Star = {
 };
 
 export function WishStars() {
-  const [revealedId, setRevealedId] = useState<number | null>(null);
+  const [activeWish, setActiveWish] = useState<{ text: string; from: { x: number; y: number } } | null>(null);
   const [usedIds, setUsedIds] = useState<Set<number>>(new Set());
-  const [pickedWish, setPickedWish] = useState<string>('');
+  const [lastWish, setLastWish] = useState<string>('');
 
   const stars: Star[] = useMemo(
     () =>
       Array.from({ length: 28 }, (_, i) => ({
         id: i,
-        left: Math.random() * 95 + 1,
-        top: Math.random() * 90 + 3,
+        left: Math.random() * 92 + 4,
+        top: Math.random() * 80 + 6,
         size: Math.random() * 10 + 8,
         delay: Math.random() * 2,
       })),
     []
   );
 
-  const handleStarClick = (id: number) => {
-    setRevealedId(id);
-    setUsedIds((prev) => new Set(prev).add(id));
-    const fresh = WISHES.filter((w) => w !== pickedWish);
-    setPickedWish(fresh[Math.floor(Math.random() * fresh.length)]);
+  const handleStarClick = (star: Star) => {
+    setUsedIds((prev) => new Set(prev).add(star.id));
+    const fresh = WISHES.filter((w) => w !== lastWish);
+    const picked = fresh[Math.floor(Math.random() * fresh.length)];
+    setLastWish(picked);
+    setActiveWish({ text: picked, from: { x: star.left, y: star.top } });
   };
+
+  const dismiss = () => setActiveWish(null);
 
   return (
     <div className="relative w-full">
       {/* Star field */}
-      <div className="relative w-full h-[460px] md:h-[520px] rounded-3xl overflow-hidden border border-primary/20 bg-gradient-to-b from-[#1a0a14] via-[#170811] to-[#0d0509] shadow-[inset_0_0_80px_rgba(0,0,0,0.6)]">
+      <div className="relative w-full h-[520px] md:h-[580px] rounded-3xl overflow-hidden border border-primary/20 bg-gradient-to-b from-[#1a0a14] via-[#170811] to-[#0d0509] shadow-[inset_0_0_80px_rgba(0,0,0,0.6)]">
         {/* Faint nebula glow */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,hsl(var(--primary)/0.18)_0,transparent_55%)] pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,hsl(var(--secondary)/0.14)_0,transparent_55%)] pointer-events-none" />
@@ -83,7 +87,7 @@ export function WishStars() {
             <motion.button
               key={star.id}
               type="button"
-              onClick={() => handleStarClick(star.id)}
+              onClick={() => handleStarClick(star)}
               className="absolute group"
               style={{
                 left: `${star.left}%`,
@@ -112,62 +116,112 @@ export function WishStars() {
               >
                 <path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 22 12 17.27 5.79 22l2.39-8.15L2 9.36h7.61z" />
               </svg>
-
-              {/* Sparkle burst on activation */}
-              {revealedId === star.id && (
-                <>
-                  {Array.from({ length: 8 }).map((_, i) => (
-                    <motion.span
-                      key={i}
-                      className="absolute left-1/2 top-1/2 w-1 h-1 rounded-full bg-primary"
-                      initial={{ x: 0, y: 0, opacity: 1 }}
-                      animate={{
-                        x: Math.cos((i * Math.PI) / 4) * 40,
-                        y: Math.sin((i * Math.PI) / 4) * 40,
-                        opacity: 0,
-                      }}
-                      transition={{ duration: 0.9, ease: 'easeOut' }}
-                    />
-                  ))}
-                </>
-              )}
             </motion.button>
           );
         })}
 
-        {/* Hint label */}
-        <div className="absolute bottom-3 left-0 right-0 text-center text-[11px] uppercase tracking-[0.3em] text-foreground/40 pointer-events-none">
-          tap any star
-        </div>
-      </div>
+        {/* Hint label (only shown before first interaction) */}
+        {!activeWish && usedIds.size === 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="absolute bottom-4 left-0 right-0 text-center text-[11px] uppercase tracking-[0.3em] text-foreground/50 pointer-events-none flex items-center justify-center gap-2"
+          >
+            <span className="inline-block w-2 h-2 rounded-full bg-primary animate-pulse" />
+            tap any star
+            <span className="inline-block w-2 h-2 rounded-full bg-primary animate-pulse" />
+          </motion.div>
+        )}
 
-      {/* Wish reveal */}
-      <div className="mt-6 min-h-[110px] flex items-center justify-center">
-        <AnimatePresence mode="wait">
-          {pickedWish ? (
-            <motion.div
-              key={pickedWish}
-              initial={{ opacity: 0, y: 16, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.96 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-              className="max-w-2xl mx-auto text-center bg-card/70 backdrop-blur-md border border-primary/30 rounded-2xl px-6 py-5 shadow-[0_0_40px_-10px_hsl(var(--primary)/0.6)]"
-            >
-              <p className="font-script text-2xl md:text-3xl text-primary leading-relaxed">
-                {pickedWish}
-              </p>
-            </motion.div>
-          ) : (
-            <motion.p
-              key="placeholder"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="font-serif italic text-foreground/50 text-center"
-            >
-              Pick a star. Each one is holding a wish for you.
-            </motion.p>
+        {/* Wish reveal — appears INSIDE the sky, anchored to where the star was */}
+        <AnimatePresence>
+          {activeWish && (
+            <>
+              {/* Sparkle burst at the tapped star */}
+              <motion.div
+                key={`burst-${activeWish.text}`}
+                className="absolute pointer-events-none"
+                style={{
+                  left: `${activeWish.from.x}%`,
+                  top: `${activeWish.from.y}%`,
+                  transform: 'translate(-50%, -50%)',
+                }}
+              >
+                {Array.from({ length: 14 }).map((_, i) => (
+                  <motion.span
+                    key={i}
+                    className="absolute left-0 top-0 w-1.5 h-1.5 rounded-full bg-primary"
+                    initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                    animate={{
+                      x: Math.cos((i * Math.PI) / 7) * 80,
+                      y: Math.sin((i * Math.PI) / 7) * 80,
+                      opacity: 0,
+                      scale: 0.4,
+                    }}
+                    transition={{ duration: 1.1, ease: 'easeOut' }}
+                  />
+                ))}
+                <motion.div
+                  initial={{ scale: 0, opacity: 0.9 }}
+                  animate={{ scale: 4, opacity: 0 }}
+                  transition={{ duration: 1.1, ease: 'easeOut' }}
+                  className="absolute -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-[radial-gradient(circle,hsl(var(--primary)/0.7)_0,transparent_70%)]"
+                />
+              </motion.div>
+
+              {/* Centered wish card with backdrop dim */}
+              <motion.div
+                key="dim"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={dismiss}
+                className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-5 cursor-pointer"
+              >
+                <motion.div
+                  key={activeWish.text}
+                  initial={{ opacity: 0, scale: 0.6, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ type: 'spring', damping: 18, stiffness: 220 }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="relative max-w-md w-full bg-card/95 backdrop-blur-xl border border-primary/40 rounded-2xl px-6 py-7 md:px-8 md:py-9 shadow-[0_0_60px_-10px_hsl(var(--primary)/0.8)] cursor-default"
+                >
+                  <button
+                    type="button"
+                    onClick={dismiss}
+                    aria-label="Close wish"
+                    className="absolute top-2 right-2 p-1.5 rounded-full text-foreground/50 hover:text-foreground hover:bg-primary/15 transition-colors"
+                  >
+                    <X size={18} />
+                  </button>
+
+                  <div className="text-center text-primary/70 text-[11px] uppercase tracking-[0.3em] mb-3">
+                    a wish for you
+                  </div>
+
+                  <p className="font-script text-2xl md:text-3xl text-primary leading-snug text-center drop-shadow-[0_0_18px_hsl(var(--primary)/0.5)]">
+                    {activeWish.text}
+                  </p>
+
+                  <div className="mt-5 text-center text-[11px] uppercase tracking-[0.25em] text-foreground/40">
+                    tap anywhere to pick another
+                  </div>
+                </motion.div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
+      </div>
+
+      {/* Wishes-collected counter */}
+      <div className="mt-5 text-center">
+        <span className="inline-block text-xs uppercase tracking-[0.3em] text-foreground/50">
+          wishes collected:{' '}
+          <span className="text-primary font-bold tabular-nums">{usedIds.size}</span>
+          <span className="text-foreground/30"> / {stars.length}</span>
+        </span>
       </div>
     </div>
   );

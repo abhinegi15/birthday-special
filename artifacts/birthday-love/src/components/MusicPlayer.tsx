@@ -15,25 +15,19 @@ import { motion, AnimatePresence } from 'framer-motion';
  */
 export function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const [needsActivation, setNeedsActivation] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.45;
-    audio.muted = true;
     audio.loop = true;
-    audio
-      .play()
-      .then(() => setIsPlaying(true))
-      .catch(() => {
-        setIsPlaying(false);
-      });
+    audio.muted = false;
   }, []);
 
-  const activateSound = async () => {
+  const startMusic = async () => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.muted = false;
@@ -44,26 +38,8 @@ export function MusicPlayer() {
     } catch {
       setIsPlaying(false);
     }
-    setNeedsActivation(false);
+    setShowPrompt(false);
   };
-
-  // Activate on any first user gesture anywhere on the page
-  useEffect(() => {
-    if (!needsActivation) return;
-    const handler = () => {
-      activateSound();
-    };
-    window.addEventListener('click', handler, { once: true });
-    window.addEventListener('touchstart', handler, { once: true });
-    window.addEventListener('keydown', handler, { once: true });
-    window.addEventListener('scroll', handler, { once: true, passive: true });
-    return () => {
-      window.removeEventListener('click', handler);
-      window.removeEventListener('touchstart', handler);
-      window.removeEventListener('keydown', handler);
-      window.removeEventListener('scroll', handler);
-    };
-  }, [needsActivation]);
 
   const togglePlay = () => {
     const audio = audioRef.current;
@@ -74,7 +50,10 @@ export function MusicPlayer() {
     } else {
       audio
         .play()
-        .then(() => setIsPlaying(true))
+        .then(() => {
+          setIsPlaying(true);
+          setShowPrompt(false);
+        })
         .catch(() => setIsPlaying(false));
     }
   };
@@ -85,21 +64,20 @@ export function MusicPlayer() {
     const next = !isMuted;
     audio.muted = next;
     setIsMuted(next);
-    if (!next) setNeedsActivation(false);
   };
 
   return (
     <>
       <audio ref={audioRef} src="/music.mp3" loop preload="auto" />
 
-      {/* Pulsing prompt to enable sound */}
+      {/* Pulsing prompt to start sound */}
       <AnimatePresence>
-        {needsActivation && (
+        {showPrompt && (
           <motion.button
             initial={{ opacity: 0, y: -20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.9 }}
-            onClick={activateSound}
+            onClick={startMusic}
             className="fixed top-6 left-1/2 -translate-x-1/2 z-50 group"
           >
             <motion.div
@@ -111,7 +89,7 @@ export function MusicPlayer() {
               className="flex items-center gap-2 px-5 py-3 rounded-full bg-primary/15 backdrop-blur-md border border-primary/40 text-foreground shadow-lg hover:bg-primary/25 transition-colors"
             >
               <Heart size={16} className="text-primary fill-primary animate-pulse" />
-              <span className="text-sm font-medium tracking-wide">Tap to hear our song</span>
+              <span className="text-sm font-medium tracking-wide">Tap to play our song</span>
             </motion.div>
           </motion.button>
         )}
