@@ -133,27 +133,27 @@
 }
 
 .dark {
-  --background: 345 68% 8%;
+  --background: 345 60% 6%; /* Deep midnight burgundy/wine */
   --foreground: 340 100% 96%;
   
-  --card: 345 60% 12%;
+  --card: 345 50% 10%; /* Frosted glass tint */
   --card-foreground: 340 100% 96%;
   --card-border: 345 40% 20%;
   
-  --popover: 345 60% 12%;
+  --popover: 345 50% 10%;
   --popover-foreground: 340 100% 96%;
   --popover-border: 345 40% 20%;
   
-  --primary: 358 39% 76%;
-  --primary-foreground: 345 68% 8%;
+  --primary: 350 80% 75%; /* Warm pink / rose gold */
+  --primary-foreground: 345 60% 6%;
   
-  --secondary: 46 65% 52%;
-  --secondary-foreground: 345 68% 8%;
+  --secondary: 30 80% 65%; /* Soft glowing peach / gold */
+  --secondary-foreground: 345 60% 6%;
   
-  --muted: 345 40% 20%;
+  --muted: 345 30% 15%;
   --muted-foreground: 340 30% 70%;
   
-  --accent: 345 40% 20%;
+  --accent: 345 40% 15%;
   --accent-foreground: 340 100% 96%;
   
   --destructive: 0 84% 60%;
@@ -161,16 +161,16 @@
   
   --border: 345 40% 20%;
   --input: 345 40% 20%;
-  --ring: 358 39% 76%;
+  --ring: 350 80% 75%;
   
-  --sidebar: 345 68% 8%;
+  --sidebar: 345 60% 6%;
   --sidebar-foreground: 340 100% 96%;
   --sidebar-border: 345 40% 20%;
-  --sidebar-primary: 358 39% 76%;
-  --sidebar-primary-foreground: 345 68% 8%;
-  --sidebar-accent: 345 40% 20%;
+  --sidebar-primary: 350 80% 75%;
+  --sidebar-primary-foreground: 345 60% 6%;
+  --sidebar-accent: 345 40% 15%;
   --sidebar-accent-foreground: 340 100% 96%;
-  --sidebar-ring: 358 39% 76%;
+  --sidebar-ring: 350 80% 75%;
 }
 
 @layer base {
