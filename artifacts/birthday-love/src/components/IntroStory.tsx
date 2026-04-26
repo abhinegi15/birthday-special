@@ -109,24 +109,50 @@ export function IntroStory({ name, fromName, onFinish }: Props) {
     []
   );
 
-  const NextButton = ({ label, onClick, icon: Icon }: { label: string; onClick: () => void; icon?: typeof ArrowRight }) => (
-    <motion.button
-      type="button"
-      onClick={onClick}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.8, duration: 0.6 }}
-      whileHover={{ scale: 1.05, boxShadow: '0 0 40px hsl(var(--primary) / 0.6)' }}
-      whileTap={{ scale: 0.96 }}
-      className="mt-12 inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-primary text-primary-foreground font-medium tracking-wide shadow-[0_0_30px_-5px_hsl(var(--primary)/0.7)] hover:shadow-[0_0_50px_-5px_hsl(var(--primary)/0.9)] transition-shadow"
-    >
-      {label}
-      {(Icon ?? ArrowRight) && (() => {
-        const I = Icon ?? ArrowRight;
-        return <I size={18} />;
-      })()}
-    </motion.button>
-  );
+  const NextButton = ({
+    label,
+    onClick,
+    icon: Icon,
+  }: {
+    label: string;
+    onClick: () => void;
+    icon?: typeof ArrowRight;
+  }) => {
+    const I = Icon ?? ArrowRight;
+    return (
+      <motion.button
+        type="button"
+        onClick={onClick}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8, duration: 0.6 }}
+        whileHover={{ scale: 1.04 }}
+        whileTap={{ scale: 0.96 }}
+        className="group relative mt-10 md:mt-12 inline-flex items-center gap-2.5 px-7 md:px-9 py-3 md:py-3.5 rounded-full font-medium text-sm md:text-base tracking-wide text-white overflow-hidden"
+        style={{
+          background:
+            'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)',
+          boxShadow:
+            '0 8px 24px -8px hsl(var(--primary) / 0.6), 0 0 0 1px hsl(var(--primary) / 0.4) inset, 0 1px 0 0 rgba(255,255,255,0.25) inset',
+        }}
+      >
+        {/* Soft inner sheen */}
+        <span className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-b from-white/25 via-transparent to-transparent" />
+        {/* Hover glow */}
+        <span className="pointer-events-none absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ boxShadow: '0 0 35px 4px hsl(var(--primary) / 0.55)' }}
+        />
+        <span className="relative z-10">{label}</span>
+        <motion.span
+          className="relative z-10 inline-flex"
+          animate={{ x: [0, 4, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <I size={16} className="md:w-[18px] md:h-[18px]" />
+        </motion.span>
+      </motion.button>
+    );
+  };
 
   return (
     <div className="fixed inset-0 z-[200] bg-gradient-to-b from-[#0a0309] via-[#15040d] to-[#0a0309] text-foreground overflow-hidden">
@@ -199,24 +225,54 @@ export function IntroStory({ name, fromName, onFinish }: Props) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.8 }}
-              className="text-center max-w-3xl"
+              className="text-center max-w-3xl px-2"
             >
               <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
-                className="text-primary uppercase tracking-[0.4em] text-xs md:text-sm mb-6"
+                className="text-primary uppercase tracking-[0.4em] text-[10px] md:text-sm mb-5"
               >
                 ♥ for someone very special ♥
               </motion.div>
+
               <motion.h1
                 initial={{ y: 40, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4, duration: 1 }}
-                className="font-serif text-6xl md:text-8xl lg:text-9xl text-foreground leading-tight drop-shadow-[0_0_40px_hsl(var(--primary)/0.6)]"
+                className="font-serif text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-foreground leading-[0.95]"
+                style={{
+                  textShadow:
+                    '0 0 30px hsl(var(--primary) / 0.65), 0 0 70px hsl(var(--primary) / 0.35)',
+                }}
               >
-                Happy<br />Birthday
+                Happy Birthday
               </motion.h1>
+
+              {/* Her name in script */}
+              <motion.p
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.9, duration: 0.9 }}
+                className="font-script text-5xl sm:text-6xl md:text-8xl text-primary mt-3 md:mt-4 leading-[1.1]"
+                style={{
+                  textShadow:
+                    '0 0 30px hsl(var(--primary) / 0.9), 0 0 60px hsl(var(--primary) / 0.5)',
+                }}
+              >
+                {name}
+              </motion.p>
+
+              {/* Nineteen years ago line */}
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.4, duration: 0.9 }}
+                className="font-serif italic text-foreground/75 text-sm sm:text-base md:text-lg mt-7 md:mt-9 max-w-xl mx-auto leading-relaxed"
+              >
+                Nineteen years ago, on Monday, 30 April 2007, at 5:12:19&nbsp;PM, the world got its softest soul.
+              </motion.p>
+
               <NextButton label="Next" onClick={() => setStep('bond')} />
             </motion.div>
           )}
@@ -398,16 +454,19 @@ export function IntroStory({ name, fromName, onFinish }: Props) {
               transition={{ duration: 0.6 }}
               className="text-center max-w-md"
             >
-              <p className="text-primary uppercase tracking-[0.3em] text-xs mb-6">a little something more</p>
-              <h2 className="font-serif text-2xl md:text-3xl text-foreground mb-10">
+              <p className="text-primary uppercase tracking-[0.3em] text-[10px] md:text-xs mb-5">a little something more</p>
+              <h2 className="font-serif text-2xl md:text-3xl text-foreground mb-8 md:mb-10">
                 There's a letter here for you.
               </h2>
 
-              {/* Big envelope */}
-              <motion.div
+              {/* Big envelope — entire envelope is clickable */}
+              <motion.button
+                type="button"
+                onClick={() => setStep('envelope-open')}
+                aria-label="Open the envelope"
                 whileHover={{ y: -6, rotate: 1 }}
                 whileTap={{ scale: 0.97 }}
-                className="relative mx-auto aspect-[5/3] w-72 md:w-80 rounded-2xl bg-gradient-to-br from-card via-card/95 to-primary/15 border border-primary/40 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.7)] overflow-hidden"
+                className="group relative mx-auto block aspect-[5/3] w-64 sm:w-72 md:w-80 rounded-2xl bg-gradient-to-br from-card via-card/95 to-primary/15 border border-primary/40 shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.7)] overflow-hidden cursor-pointer"
               >
                 <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-primary/20 to-transparent border-b border-primary/30" />
                 <div className="absolute inset-0 pointer-events-none">
@@ -419,21 +478,21 @@ export function IntroStory({ name, fromName, onFinish }: Props) {
                   transition={{ duration: 1.6, repeat: Infinity }}
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
                 >
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center border-2 border-primary/40 shadow-[0_0_30px_hsl(var(--primary)/0.7)]">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center border-2 border-primary/40 shadow-[0_0_30px_hsl(var(--primary)/0.7)] group-hover:shadow-[0_0_50px_hsl(var(--primary)/0.9)] transition-shadow">
                     <span className="font-script text-2xl text-white">♥</span>
                   </div>
                 </motion.div>
-              </motion.div>
-
-              <motion.button
-                type="button"
-                onClick={() => setStep('envelope-open')}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.96 }}
-                className="mt-10 inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-primary text-primary-foreground font-medium tracking-wide shadow-[0_0_30px_-5px_hsl(var(--primary)/0.7)]"
-              >
-                <Mail size={18} /> Open the envelope
+                {/* Tiny "tap me" hint */}
+                <span className="absolute bottom-2 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-primary/70">
+                  tap to open
+                </span>
               </motion.button>
+
+              <NextButton
+                label="Open the envelope"
+                icon={Mail}
+                onClick={() => setStep('envelope-open')}
+              />
             </motion.div>
           )}
 
