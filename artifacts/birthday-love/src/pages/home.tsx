@@ -8,6 +8,8 @@ import { Countdown } from '@/components/Countdown';
 import { BirthdayCake } from '@/components/BirthdayCake';
 import { LoveStats } from '@/components/LoveStats';
 import { StarryBackground } from '@/components/StarryBackground';
+import { WishStars } from '@/components/WishStars';
+import { OpenWhenLetters } from '@/components/OpenWhenLetters';
 
 // Placeholders for photos. Replace these with her actual photos any time.
 import solo1 from '@/assets/solo-1.png';
@@ -439,6 +441,52 @@ export default function Home() {
                 </motion.div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* WISH UPON A STAR — interactive */}
+        <section className="py-32 px-6 relative">
+          <FloatingSticker src={pandaSleep} className="absolute left-[6%] top-12 hidden md:block" size={100} rotate={-10} />
+          <FloatingSticker src={pandaHeart} className="absolute right-[6%] bottom-12 hidden md:block" size={100} rotate={10} />
+
+          <div className="max-w-4xl mx-auto relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <p className="text-primary tracking-[0.3em] uppercase text-xs mb-4 font-medium">A Sky Full of You</p>
+              <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-3">Wish Upon a Star</h2>
+              <p className="font-serif text-foreground/60 max-w-xl mx-auto">
+                I scattered a wish behind every star up there. Tap one and it's yours.
+              </p>
+            </motion.div>
+
+            <WishStars />
+          </div>
+        </section>
+
+        {/* OPEN WHEN LETTERS — interactive */}
+        <section className="py-32 px-6 relative bg-primary/5">
+          <BobbingSticker src={pandaBackhug} className="absolute left-4 top-10 hidden md:block" size={90} rotate={-8} />
+          <BobbingSticker src={pandaFlowers} className="absolute right-4 bottom-10 hidden md:block" size={90} rotate={10} />
+
+          <div className="max-w-5xl mx-auto relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <p className="text-primary tracking-[0.3em] uppercase text-xs mb-4 font-medium">For Every Mood</p>
+              <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-3">Open When…</h2>
+              <p className="font-serif text-foreground/60 max-w-xl mx-auto">
+                A little stack of letters from me. Pick the one you need today — or open them all, I won't tell anyone.
+              </p>
+            </motion.div>
+
+            <OpenWhenLetters />
           </div>
         </section>
 

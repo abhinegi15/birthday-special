@@ -5,7 +5,6 @@ import { Heart, RefreshCw, Star, ShieldCheck } from 'lucide-react';
 export function LoveStats() {
   const [recalcCount, setRecalcCount] = useState(0);
   const [myLoveValue, setMyLoveValue] = useState(0);
-  const [herLoveValue, setHerLoveValue] = useState(0);
   const [isRecalculating, setIsRecalculating] = useState(false);
   const [reasonsCount, setReasonsCount] = useState(847329612);
 
@@ -20,8 +19,7 @@ export function LoveStats() {
   const recalculate = () => {
     setIsRecalculating(true);
     setMyLoveValue(0);
-    setHerLoveValue(0);
-    
+
     setTimeout(() => {
       setRecalcCount(prev => prev + 1);
       setIsRecalculating(false);
@@ -33,7 +31,6 @@ export function LoveStats() {
     if (!isRecalculating) {
       const timer = setTimeout(() => {
         setMyLoveValue(120); // Goes over 100
-        setHerLoveValue(99); // Stuck at 99
       }, 300);
       return () => clearTimeout(timer);
     }
@@ -104,34 +101,6 @@ export function LoveStats() {
             )}
           </div>
 
-          {/* How much you love me */}
-          <div>
-            <div className="flex justify-between text-sm mb-2">
-              <span className="font-medium text-foreground/80">How much YOU love me</span>
-              <span className="text-foreground/50">
-                {herLoveValue}%
-              </span>
-            </div>
-            <div className="h-4 bg-primary/10 rounded-full overflow-hidden">
-              <motion.div 
-                className="h-full bg-primary/40 rounded-full relative"
-                initial={{ width: 0 }}
-                animate={{ width: `${herLoveValue}%` }}
-                transition={{ duration: 2, ease: "easeOut" }}
-              >
-                <div className="absolute right-0 top-0 h-full w-4 bg-gradient-to-l from-white/20 to-transparent animate-pulse" />
-              </motion.div>
-            </div>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2 }}
-              className="text-xs text-foreground/40 mt-1 flex items-center gap-1"
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-              ...still verifying, please hold
-            </motion.div>
-          </div>
         </div>
       </motion.div>
 
