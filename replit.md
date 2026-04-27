@@ -1,27 +1,34 @@
-# Workspace
+# Happy Birthday — A Love Letter
 
-## Overview
-
-pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
+A simple React + Vite + Tailwind CSS website. A romantic birthday letter with animations, photos, panda stickers, and interactive sections.
 
 ## Stack
+- React 19
+- Vite 7
+- Tailwind CSS v4
+- Framer Motion (animations)
+- Lucide React (icons)
+- canvas-confetti (cake celebration)
 
-- **Monorepo tool**: pnpm workspaces
-- **Node.js version**: 24
-- **Package manager**: pnpm
-- **TypeScript version**: 5.9
-- **API framework**: Express 5
-- **Database**: PostgreSQL + Drizzle ORM
-- **Validation**: Zod (`zod/v4`), `drizzle-zod`
-- **API codegen**: Orval (from OpenAPI spec)
-- **Build**: esbuild (CJS bundle)
+## Project layout
+```
+index.html
+vite.config.ts
+tsconfig.json
+src/
+  main.tsx          // entry
+  App.tsx           // renders <Home />
+  index.css         // tailwind + theme tokens
+  pages/home.tsx    // the actual letter
+  components/       // BirthdayCake, Countdown, IntroStory, etc.
+  assets/           // photos & panda stickers
+```
 
-## Key Commands
+## Scripts
+- `npm install` — install dependencies
+- `npm run dev` — start the dev server
+- `npm run build` — production build into `dist/`
+- `npm run preview` — preview the production build
 
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- `pnpm --filter @workspace/api-server run dev` — run API server locally
-
-See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+## Deploying to Vercel
+This project uses standard Vite defaults. Push to a Git repo and import it in Vercel — it will auto-detect the framework and use the settings in `vercel.json`. No env vars required.
