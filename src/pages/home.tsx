@@ -13,12 +13,12 @@ import { OpenWhenLetters } from '@/components/OpenWhenLetters';
 import { IntroStory } from '@/components/IntroStory';
 
 // Placeholders for photos. Replace these with her actual photos any time.
-import solo1 from '@/assets/solo-1.png';
-import solo2 from '@/assets/solo-2.png';
-import solo3 from '@/assets/solo-3.png';
-import couple1 from '@/assets/couple-1.png';
-import couple2 from '@/assets/couple-2.png';
-import couple3 from '@/assets/couple-3.png';
+import solo1 from '@/assets/dev/solo-1.jpg';
+import solo2 from '@/assets/dev/solo-10.jpg';
+import solo3 from '@/assets/dev/solo-11.jpg';
+import couple1 from '@/assets/dev/couple-1.jpg';
+import couple2 from '@/assets/dev/couple-6.jpg';
+import couple3 from '@/assets/dev/couple-3.jpg';
 
 // Trending Bubu & Dudu style panda couple stickers
 import pandaHug from '@/assets/stickers/panda-hug.png';
@@ -113,8 +113,8 @@ export default function Home() {
   const [showIntro, setShowIntro] = useState(true);
   const [lightsOn, setLightsOn] = useState(false);
 
-  const NAME = "[Her Name]"; // Boyfriend: Replace this!
-  const BOYFRIEND_NAME = "[Your Name]"; // Boyfriend: Replace this!
+  const NAME = "Prachi"; // Boyfriend: Replace this!
+  const BOYFRIEND_NAME = "Abhishek"; // Boyfriend: Replace this!
 
   const handleFinishIntro = ({ lightsOn: lit, playMusic }: { lightsOn: boolean; playMusic: boolean }) => {
     setShowIntro(false);
@@ -490,7 +490,7 @@ export default function Home() {
                   <img
                     src={img.src}
                     alt="Us"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-hover:rotate-1"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-hover:rotate-1 object-top"
                   />
                 </motion.div>
               ))}
