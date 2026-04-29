@@ -273,7 +273,7 @@ export function IntroStory({ name, fromName, onFinish }: Props) {
                 Nineteen years ago, on Monday, 30 April 2007, at 5:12:19&nbsp;PM, the most beautiful part of my life was born.
               </motion.p>
 
-              <NextButton label="Next" onClick={() => setStep('bond')} />
+              <NextButton label="Our bond" onClick={() => setStep('bond')} />
             </motion.div>
           )}
 
@@ -329,7 +329,7 @@ export function IntroStory({ name, fromName, onFinish }: Props) {
                 <motion.img src={pandaFlowers} alt="" className="w-20 h-20 object-contain" animate={{ y: [0, -8, 0] }} transition={{ duration: 3, repeat: Infinity }} />
                 <motion.img src={pandaCake} alt="" className="w-20 h-20 object-contain" animate={{ y: [0, -8, 0] }} transition={{ duration: 3, repeat: Infinity, delay: 0.5 }} />
               </div>
-              <NextButton label="Next" onClick={() => setStep('something-special')} />
+              <NextButton label="Vibe Between Us" onClick={() => setStep('something-special')} />
             </motion.div>
           )}
 
