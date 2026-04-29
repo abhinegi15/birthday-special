@@ -270,7 +270,7 @@ export function IntroStory({ name, fromName, onFinish }: Props) {
                 transition={{ delay: 1.4, duration: 0.9 }}
                 className="font-serif italic text-foreground/75 text-sm sm:text-base md:text-lg mt-7 md:mt-9 max-w-xl mx-auto leading-relaxed"
               >
-                Nineteen years ago, on Monday, 30 April 2007, at 5:12:19&nbsp;PM, the world got its softest soul.
+                Nineteen years ago, on Monday, 30 April 2007, at 5:12:19&nbsp;PM, the most beautiful part of my life was born.
               </motion.p>
 
               <NextButton label="Next" onClick={() => setStep('bond')} />
