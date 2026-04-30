@@ -16,10 +16,9 @@ import { IntroStory } from '@/components/IntroStory';
 import solo1 from '@/assets/dev/solo-1.jpg';
 import solo2 from '@/assets/dev/solo-10.jpg';
 import solo3 from '@/assets/dev/solo-11.jpg';
-import couple1 from '@/assets/dev/couple-1.jpg';
+import couple1 from '@/assets/dev/IMG-20250912-WA0009.jpg';
 import couple2 from '@/assets/dev/couple-6.jpg';
 import couple3 from '@/assets/dev/couple-3.jpg';
-
 // Trending Bubu & Dudu style panda couple stickers
 import pandaHug from '@/assets/stickers/panda-hug.png';
 import pandaHeart from '@/assets/stickers/panda-heart.png';
